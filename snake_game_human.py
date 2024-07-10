@@ -6,16 +6,11 @@ from collections import namedtuple
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
 
-
-# font = pygame.font.SysFont('arial', 25)
-
 class Direction(Enum):
     RIGHT = 1
     LEFT = 2
     UP = 3
     DOWN = 4
-
-
 Point = namedtuple('Point', 'x, y')
 
 # rgb colors
@@ -59,7 +54,7 @@ class SnakeGame:
             self._place_food()
 
     def play_step(self):
-        # 1. collect user input
+        # 1. collecting user input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -74,17 +69,17 @@ class SnakeGame:
                 elif event.key == pygame.K_DOWN:
                     self.direction = Direction.DOWN
 
-        # 2. move
+        # 2. moving the snake
         self._move(self.direction)  # update the head
         self.snake.insert(0, self.head)
 
-        # 3. check if game over
+        # 3. game over check
         game_over = False
         if self._is_collision():
             game_over = True
             return game_over, self.score
 
-        # 4. place new food or just move
+        # 4. placeing new food or just move
         if self.head == self.food:
             self.score += 1
             self._place_food()
@@ -98,10 +93,10 @@ class SnakeGame:
         return game_over, self.score
 
     def _is_collision(self):
-        # hits boundary
+        # boundary collision
         if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h - BLOCK_SIZE or self.head.y < 0:
             return True
-        # hits itself
+        # collision with itself
         if self.head in self.snake[1:]:
             return True
 
